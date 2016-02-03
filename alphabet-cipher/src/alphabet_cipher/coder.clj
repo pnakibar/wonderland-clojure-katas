@@ -13,23 +13,34 @@
   (conj (into [] (rest coll)) (first coll))
   )
 
-(def generate-table
+(def table
   (reduce (fn [table key]
             (conj table [(char key) ((comp tilt-1-left second last) table)]
                   )
             )
 
-          {\A alphabet}
-          (range (+ 1 ALPHABET-lower-bound)  ALPHABET-higher-bound))
+          {\a alphabet}
+          (range (+ 1 alphabet-lower-bound)  alphabet-higher-bound))
+  )
+
+(defn get-row
+  [key]
+  (get table key))
+
+(defn to-column
+  [char]
+  (- (int char) alphabet-lower-bound)
+  )
+
+(defn get-cipher-letter
+  [original-char cipher-char]
+  (nth (get-row cipher-char) (to-column original-char))
   )
 
 
 
-
-
-
 (defn encode [keyword message]
-  "encodeme")
+  (map get-cipher-letter message keyword))
 
 (defn decode [keyword message]
   "decodeme")
