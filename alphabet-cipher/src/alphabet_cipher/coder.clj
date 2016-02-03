@@ -77,7 +77,13 @@
     )
   )
 
-
+(defn deciper-char
+  [c-char m-char]
+  (char (+ alphabet-lower-bound (.indexOf (get table m-char) c-char)))
+  )
 (defn decipher [cipher message]
-  "decypherme")
+  "decypherme"
+  (clojure.string/join
+    (map deciper-char cipher message))
+  )
 
