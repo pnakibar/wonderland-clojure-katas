@@ -61,12 +61,15 @@
     )
   )
 
+(defn decode-char
+  [k-char m-char]
+  (char (+ alphabet-lower-bound (.indexOf (get table k-char) m-char)))
+  )
+
 (defn decode [keyword message]
   "decodeme"
   (clojure.string/join
-    (map (fn [char-keyword char-encoded]
-           (char (+ alphabet-lower-bound (.indexOf (get table char-keyword) char-encoded)))
-           )
+    (map decode-char
          (clojure.string/join (take (count message) (new-keyword keyword message)))
          message
          )
