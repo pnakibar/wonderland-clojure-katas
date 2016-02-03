@@ -57,13 +57,24 @@
 
 (defn encode [keyword message]
   (clojure.string/join
-      (map get-cipher-letter (new-keyword keyword message) message)
-      )
+    (map get-cipher-letter (new-keyword keyword message) message)
     )
+  )
 
-  (defn decode [keyword message]
-    "decodeme")
+(defn decode [keyword message]
+  "decodeme"
+  (clojure.string/join
+    (map (fn [char-keyword char-encoded]
+           (char (+ alphabet-lower-bound (.indexOf (get table char-keyword) char-encoded)))
+           )
+         (clojure.string/join (take (count message) (new-keyword keyword message)))
+         message
+         )
 
-  (defn decipher [cipher message]
-    "decypherme")
+    )
+  )
+
+
+(defn decipher [cipher message]
+  "decypherme")
 
