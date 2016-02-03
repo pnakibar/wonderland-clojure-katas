@@ -13,12 +13,14 @@
   (conj (into [] (rest coll)) (first coll))
   )
 
-(def generateTable
-  (reduce (fn [table newLine]
-            (conj table (tilt-1-left (last table)))
+(def generate-table
+  (reduce (fn [table key]
+            (conj table [(char key) ((comp tilt-1-left second last) table)]
+                  )
             )
-          [alphabet]
-          (range ALPHABET-lower-bound (- ALPHABET-higher-bound 1)))
+
+          {\A alphabet}
+          (range (+ 1 ALPHABET-lower-bound)  ALPHABET-higher-bound))
   )
 
 
