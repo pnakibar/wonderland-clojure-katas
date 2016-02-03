@@ -20,7 +20,7 @@
             )
 
           {\a alphabet}
-          (range (+ 1 alphabet-lower-bound)  alphabet-higher-bound))
+          (range (+ 1 alphabet-lower-bound) alphabet-higher-bound))
   )
 
 (defn get-row
@@ -37,15 +37,33 @@
   (nth (get-row cipher-char) (to-column original-char))
   )
 
-
-
-(defn encode [keyword message]
-  (clojure.string/join (map get-cipher-letter keyword message))
+(defn repeat-word
+  [word n]
+  (take n (repeat word))
   )
 
-(defn decode [keyword message]
-  "decodeme")
+(defn new-keyword
+  [keyword message]
+  (let [keyword-size (count keyword)
+        message-size (count message)
+        quantity-keyword ((comp inc int /) message-size keyword-size)]
 
-(defn decipher [cipher message]
-  "decypherme")
+    (if (< (count keyword) (count message))
+      (clojure.string/join (repeat-word keyword quantity-keyword))
+      keyword
+      )
+    )
+  )
+
+(defn encode [keyword message]
+  (clojure.string/join
+      (map get-cipher-letter (new-keyword keyword message) message)
+      )
+    )
+
+  (defn decode [keyword message]
+    "decodeme")
+
+  (defn decipher [cipher message]
+    "decypherme")
 
