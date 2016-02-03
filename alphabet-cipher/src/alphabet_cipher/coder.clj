@@ -40,7 +40,8 @@
 
 
 (defn encode [keyword message]
-  (map get-cipher-letter message keyword))
+  (clojure.string/join (map get-cipher-letter keyword message))
+  )
 
 (defn decode [keyword message]
   "decodeme")
