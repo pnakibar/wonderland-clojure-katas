@@ -33,7 +33,6 @@
         card-2-rank (second card-2)
         card-1-suit (first card-1)
         card-2-suit (second card-2)]
-    (println card-1-rank)
 
     (if (= card-1-rank card-2-rank)
       [(compare-suits card-1-suit card-2-suit) card-1-rank] ;;same rank
@@ -45,6 +44,51 @@
     )
   )
 
-(defn play-round [player1-card player2-card])
+(defn play-round [player1-card player2-card]
+  )
 
-(defn play-game [player1-cards player2-cards])
+(defn who-won-game?
+  [player-1-cards player-2-cards]
+  (cond
+    (empty? player-1-cards) :player-2
+    (empty? player-2-cards) :player-1
+    :else nil
+    )
+  )
+
+(defn resolve-hands
+  [hand-1 hand-2]
+  (let [card-1 (first hand-1)
+        card-2 (first hand-2)
+        won-card (compare-cards card-1 card-2)
+        ]
+    (if (= card-1 won-card)
+      [(conj (rest hand-1) card-1 card-2) (rest hand-2)]
+      [(rest hand-1) (conj (rest hand-2) card-2 card-1)]
+      )
+    )
+  )
+
+(def give-cards
+  (split-at (/ (count cards) 2) (shuffle cards))
+  )
+
+(def p-1-cards (first give-cards))
+(def p-2-cards (second give-cards))
+
+
+(defn play-game
+  [player-1-cards player-2-cards]
+  (loop
+    [player-1-cards player-1-cards
+     player-2-cards player-2-cards]
+    (if (who-won-game? player-1-cards player-2-cards)
+      (who-won-game? player-1-cards player-2-cards)
+      (let [hands-decided (resolve-hands player-1-cards player-2-cards)]
+        (recur (first hands-decided) (second hands-decided))
+        )
+      )
+    )
+  )
+
+
