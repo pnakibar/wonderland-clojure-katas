@@ -10,7 +10,7 @@
   (testing "queens are higher rank than jacks"
     (is (= :queen
            (compare-ranks :queen :jack)
-          )))
+           )))
   (testing "kings are higher rank than queens"
     (is (= :queen
            (compare-ranks :king :queen))))
@@ -22,7 +22,7 @@
         (compare-cards [:club 2] [:spade 2]))
     )
   (testing "if the ranks are equal, diamonds beat clubs"
-     (is (= [:diamond 2])
+    (is (= [:diamond 2])
         (compare-cards [:club 2] [:diamond 2]))
     )
   (testing "if the ranks are equal, hearts beat diamonds"
@@ -32,6 +32,19 @@
 
   )
 
+(deftest test-resolve-hands
+  (testing "the player-1 wins round"
+    (is (let [resolved-hand (resolve-hands '([:club 2]) '([:club 1])]
+          (and (= (first resolved-hand) '(:club 1 :club 2))
+               (= (second resolved-hand) '())
+               )
+          )
+        )
+    )
+  )
+
 (deftest test-play-game
-  (testing "the player loses when they run out of cards"))
+  (testing "the player loses when they run out of cards")
+
+  )
 
